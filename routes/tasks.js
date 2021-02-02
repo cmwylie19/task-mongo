@@ -17,6 +17,11 @@ router.post("/addtask", function (req, res) {
   task.create(req, res);
 });
 
+router.put("/updatetask", function (req, res) {
+  task.update(req, res);
+});
+
+
 router.get("/gettask", function (req, res) {
   task.list(req, res);
 });

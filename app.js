@@ -11,7 +11,7 @@ app.use(bodyParser({ type: 'application/*+json' }))
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/tasks", tasks);
-app.get("/check/healthz", (req,res)=>{res.send(req.headers)})
+app.get("/application/healthz", (req,res)=>{res.send(req.headers)})
 app.listen(port, function () {
   console.log(`App listening on ${port}!`);
 });

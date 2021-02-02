@@ -1,12 +1,12 @@
 apiVersion: gateway.solo.io/v1
 kind: RouteTable
 metadata:
-  name: default
+  name: application
   namespace: gloo-system
 spec:
   routes:
     - matchers:
-        - prefix: /tasks
+        - prefix: /application
       routeAction:
         single:
           upstream:

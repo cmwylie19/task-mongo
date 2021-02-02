@@ -14,6 +14,15 @@ exports.create = function (req, res) {
   });
 };
 
+exports.update = function (req,res) {
+  Task.updateOne({_id: req.body._id}, { ts: Date.now() }, { runValidators: true }).exec((err, result)=>{
+    if(err){
+      res.send(400, err)
+    }
+    res.send(result)
+  })
+}
+
 exports.list = function (req, res) {
   Task.find({}).exec(function (err, tasks) {
     if (err) {
