@@ -15,7 +15,7 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req,res) {
-  Task.updateOne({_id: req.body._id}, { ts: Date.now() }, { runValidators: true }).exec((err, result)=>{
+  Task.updateOne({_id: req.body._id}, { ts: "test"}, { runValidators: true }).exec((err, result)=>{
     if(err){
       res.send(400, err)
     }
