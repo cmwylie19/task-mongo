@@ -6,8 +6,8 @@ metadata:
   name: mongodb-service
 spec:
   ports:
-  - port: 27017
-    targetPort: 27017
+    - port: 27017
+      targetPort: 27017
   selector:
     app: mongodb-pod
   type: ClusterIP
