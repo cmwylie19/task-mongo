@@ -25,9 +25,11 @@ spec:
     routes:
       - matchers:
           - prefix: /callback
-        directResponseAction:
-          status: 200
-          body: "healthy!"
+        routeAction:
+          single:
+            upstream:
+              name: default-httpbin-8000
+              namespace: gloo-system
       - matchers:
           - prefix: /check/healthz
         directResponseAction:
