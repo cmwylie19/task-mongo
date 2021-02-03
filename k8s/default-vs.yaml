@@ -12,6 +12,19 @@ spec:
         configRef:
           name: google-oidc
           namespace: gloo-system
+      stagedTransformations:
+        early:
+          requestTransforms:
+            - requestTransformation:
+                transformationTemplate:
+                  extractors:
+                    token:
+                      header: 'cookie'
+                      regex: 'id_token=(.*); .*'
+                      subgroup: 1
+                  headers:
+                    jwt:
+                      text: '{{ token }}'
       transformations:
         responseTransformation:
           transformationTemplate:
