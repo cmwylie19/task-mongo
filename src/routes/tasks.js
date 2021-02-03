@@ -4,6 +4,8 @@ const task = require("../controllers/tasks");
 
 router.use(function (req, res, next) {
   console.log("/" + req.method);
+  console.log('x-forwarded-for: ',req.headers['x-forwarded-for'])
+  console.log("Remote address: ", req.connection.remoteAddress)
   next();
 });
 
