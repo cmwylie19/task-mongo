@@ -4,6 +4,7 @@
   "description": "task-service",
   "main": "index.js",
   "scripts": {
+    "prettier":"npx prettier -w src/*.js src/*/*.js",
     "start":"node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -4,25 +4,25 @@ const task = require("../controllers/tasks");
 
 router.use(function (req, res, next) {
   console.log("/" + req.method);
-  console.log('x-forwarded-for: ',req.headers['x-forwarded-for'])
-  console.log("Remote address: ", req.connection.remoteAddress)
+  console.log("x-forwarded-for: ", req.headers["x-forwarded-for"]);
+  console.log("Remote address: ", req.connection.remoteAddress);
+  console.log("Request Path: ", req.path);
   next();
 });
 
-
 router.get("/", function (req, res) {
-  res.send("Hello")
+  res.send("Hello");
 });
 
 router.post("/addtask", function (req, res) {
   // res.send(req.body)
+  console.log(`add task`);
   task.create(req, res);
 });
 
 router.put("/updatetask", function (req, res) {
   task.update(req, res);
 });
-
 
 router.get("/gettask", function (req, res) {
   task.list(req, res);
