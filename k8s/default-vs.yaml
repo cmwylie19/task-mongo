@@ -25,6 +25,9 @@ spec:
                   headers:
                     jwt:
                       text: '{{ token }}'
+      headerManipulation:
+        requestHeadersToRemove:
+        - "cookie"
       transformations:
         responseTransformation:
           transformationTemplate:
