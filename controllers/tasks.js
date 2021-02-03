@@ -15,12 +15,14 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req,res) {
-  Task.updateOne({_id: req.body._id}, { ts: "test"}, { runValidators: true }).exec((err, result)=>{
-    if(err){
-      res.send(400, err)
-    }
-    res.send(result)
-  })
+  //const { _id } = req.body
+  res.send(req.body.id)
+  // Task.updateOne({_id: req.body._id}, { ts: "test"}, { runValidators: true }).exec((err, result)=>{
+  //   if(err){
+  //     res.send(400, err)
+  //   }
+  //   res.send(result)
+  // })
 }
 
 exports.list = function (req, res) {
