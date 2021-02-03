@@ -14,8 +14,8 @@ spec:
           name: google
           namespace: gloo-system
         issuer_url: https://accounts.google.com
-        # session:
-        #   cookieOptions:
-        #     notSecure: true
+        session:
+          cookieOptions:
+            notSecure: true
         scopes:
         - email
