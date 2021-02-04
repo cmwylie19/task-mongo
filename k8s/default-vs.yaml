@@ -59,6 +59,11 @@ spec:
             namespace: "gloo-system"
       - matchers:
           - prefix: /application
+        options:
+            extauth:
+              configRef:
+                name: google-oidc
+                namespace: gloo-system
         delegateAction:
           ref:
             name: application

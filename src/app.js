@@ -7,8 +7,13 @@ const bodyParser = require("body-parser");
 
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(
+  bodyParser.urlencoded({
+    // to support URL-encoded bodies
+    extended: true,
+  })
+);
 
 app.use("/tasks", tasks);
 app.get("/application/healthz", (req, res) => {

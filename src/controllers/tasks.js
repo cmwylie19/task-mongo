@@ -6,7 +6,7 @@ exports.create = function (req, res) {
   console.log(req.body);
   newTask.save(function (err) {
     if (err) {
-      res.status(400).send("Unable to save task to database");
+      res.status(400).send(err + " Unable to save task to database");
     } else {
       // res.redirect("/tasks/gettask");
       res.send(`added task`);
@@ -14,15 +14,17 @@ exports.create = function (req, res) {
   });
 };
 
-exports.update = function (req, res) {
-  //const { _id } = req.body
-  res.send(req.body.id);
-  // Task.updateOne({_id: req.body._id}, { ts: "test"}, { runValidators: true }).exec((err, result)=>{
-  //   if(err){
-  //     res.send(400, err)
-  //   }
-  //   res.send(result)
-  // })
+exports.update = (req, res) => {
+  Task.updateOne(
+    { _id: req.body.id },
+    { ts: "test" },
+    { runValidators: true }
+  ).exec((err, result) => {
+    if (err) {
+      res.send(400, err);
+    }
+    res.send(result);
+  });
 };
 
 exports.list = function (req, res) {
