@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pipeline-sa
+secrets:
+  - name: regcred
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git-repo
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: https://github.com/cmwylie19/task-mongo
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-repo
+spec:
+  type: image
+  params:
+    - name: url
+      value: docker.io/cmwylie19/task-service-dev
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-image
+spec:
+  params:
+    - name: pathToDockerFile
+      type: string
+      default: /Dockerfile
+    - name: pathToContext
+      type: string
+      default: "."
+  resources:
+    inputs:
+      - name: docker-source
+        type: git
+        targetPath: /
+    outputs:
+      - name: buildImage
+        type: image
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:v0.16.0
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=$(params.pathToDockerFile)
+        - --destination=$(resources.outputs.buildImage.url)
+        - --context=$(params.pathToContext) 
+        - --insecure
+        - --skip-tls-verify
+        - --skip-tls-verify-pull
+        - --insecure-pull   
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: dev
+spec:
+  resources:
+    - name: docker-source
+      type: git
+    - name: buildImage
+      type: image
+    - name: docker-repo
+      type: image
+  tasks:
+    - name: build-image
+      taskRef:
+        name: build-image
+      params:
+        - name: pathToDockerFile
+          value: /Dockerfile
+        - name: pathToContext
+          value: "."
+      resources:
+        inputs:
+          - name: docker-source
+            resource: docker-source
+        outputs:
+          - name: buildImage
+            resource: docker-repo
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: pipeline-run
+spec:
+  serviceAccountName: pipeline-sa
+  pipelineRef:
+    name: pipeline-dev
+  resources:
+  - name: docker-repo
+    resourceRef:
+      name: docker-repo
+  - name: docker-source
+    resourceRef:
+      name: git-repo
+  - name: buildImage
+    resourceRef:
+      name: docker-repo
