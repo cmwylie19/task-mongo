@@ -13,7 +13,7 @@ kubectl apply -f k8s/task.yaml
 
 Enable Strict Validation for Gloo Edge default settings (Optional)
 ```
-k patch settings default -n gloo-system --type merge --patch "$(cat patches/validation-patch.yaml)"
+k patch settings default -n gloo-system --type merge --patch "$(cat manifests/patches/validation-patch.yaml)"
 ```
 
 Enable Route Replacement Gloo Edge (Optional)
@@ -24,17 +24,17 @@ kubectl patch settings -n gloo-system default --patch '{"spec": {"gloo": {"inval
 
 Forward IP Address from Downstream from Envoy Listener
 ```
-kubectl patch -n gloo-system gateway gateway-proxy --type merge --patch "$(cat patches/downstream-ip-patch.yaml)"
+kubectl patch -n gloo-system gateway gateway-proxy --type merge --patch "$(cat manifests/patches/downstream-ip-patch.yaml)"
 ```
 
 Forward IP From Loadbalancer
 ```
-kubectl patch -n gloo-system svc gateway-proxy --type merge --patch "$(cat patches/loadbalancer-patch.yaml)" 
+kubectl patch -n gloo-system svc gateway-proxy --type merge --patch "$(cat manifests/patches/loadbalancer-patch.yaml)" 
 ```
 
 Access Logs Patch
 ```
-kubectl patch -n gloo-system gateway gateway-proxy --type merge --patch "$(cat patches/accesslogs-patch.yaml)"
+kubectl patch -n gloo-system gateway gateway-proxy --type merge --patch "$(cat manifests/patches/accesslogs-patch.yaml)"
 ```
 
 ## Endpoints
