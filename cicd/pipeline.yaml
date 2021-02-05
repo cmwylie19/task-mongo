@@ -108,3 +108,83 @@ spec:
   - name: buildImage
     resourceRef:
       name: docker-repo
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  labels:
+    app: tekton-app
+    tekton.dev/pipeline: dev
+  name: dev-run
+  namespace: tekton-pipelines
+spec:
+  pipelineRef:
+    name: dev
+  resources:
+  - name: docker-source
+    resourceRef:
+      name: git-repo
+  - name: buildImage
+    resourceRef:
+      name: docker-repo
+  - name: docker-repo
+    resourceRef:
+      name: docker-repo
+  serviceAccountName: pipeline-sa
+  timeout: 1h0m0s
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tekton-triggers-createwebhook
+  namespace: tekton-pipelines
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+- apiGroups:
+  - triggers.tekton.dev
+  resources:
+  - eventlisteners
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs:
+  - create
+  - get
+  - list
+  - delete
+  - update
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tekton-triggers-createwebhook
+  namespace: tekton-pipelines
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-triggers-createwebhook
+  namespace: tekton-pipelines
+subjects:
+  - kind: ServiceAccount
+    name: tekton-triggers-createwebhook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tekton-triggers-createwebhook
