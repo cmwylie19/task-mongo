@@ -8,10 +8,10 @@ spec:
     domains:
       - "*"
     options:
-      extauth:
-        configRef:
-          name: google-oidc
-          namespace: gloo-system
+      # extauth:
+      #   configRef:
+      #     name: google-oidc
+      #     namespace: gloo-system
       stagedTransformations:
         early:
           requestTransforms:
