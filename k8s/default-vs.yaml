@@ -8,10 +8,6 @@ spec:
     domains:
       - "*"
     options:
-      # extauth:
-      #   configRef:
-      #     name: google-oidc
-      #     namespace: gloo-system
       stagedTransformations:
         early:
           requestTransforms:
@@ -41,13 +37,17 @@ spec:
     routes:
       - matchers:
           - prefix: /callback
-        routeAction:
-          single:
-            upstream:
-              name: default-httpbin-8000
-              namespace: gloo-system
+        delegateAction:
+          ref:
+            name: callback
+            namespace: "gloo-system"
+        options:
+            extauth:
+              configRef:
+                name: google-oidc
+                namespace: gloo-system
       - matchers:
-          - prefix: /check/healthz
+          - prefix: /check/health
         directResponseAction:
           status: 200
           body: "healthy!"
@@ -56,15 +56,4 @@ spec:
         delegateAction:
           ref:
             name: default
-            namespace: "gloo-system"
-      - matchers:
-          - prefix: /application
-        options:
-            extauth:
-              configRef:
-                name: google-oidc
-                namespace: gloo-system
-        delegateAction:
-          ref:
-            name: application
             namespace: "gloo-system"

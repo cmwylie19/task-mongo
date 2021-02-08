@@ -16,7 +16,7 @@ app.use(
 );
 
 app.use("/tasks", tasks);
-app.get("/application/healthz", (req, res) => {
+app.get("/callback", (req, res) => {
   res.send(JSON.stringify(req.headers, undefined, 2));
 });
 app.listen(port, () => {

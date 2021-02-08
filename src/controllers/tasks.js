@@ -1,6 +1,14 @@
 const path = require("path");
 const Task = require("../models/tasks");
 
+// Add Friend
+
+// delete friend
+
+// add active
+
+// delete active
+
 exports.create = function (req, res) {
   var newTask = new Task(req.body);
   console.log(req.body);
@@ -16,8 +24,8 @@ exports.create = function (req, res) {
 
 exports.update = (req, res) => {
   Task.updateOne(
-    { _id: req.body.id },
-    { ts: "test" },
+    { _id: req.body._id },
+    { $set: { ts: Date.now().toString(), title: req.body.title } },
     { runValidators: true }
   ).exec((err, result) => {
     if (err) {

@@ -1,12 +1,12 @@
 apiVersion: gateway.solo.io/v1
 kind: RouteTable
 metadata:
-  name: application
+  name: callback
   namespace: gloo-system
 spec:
   routes:
     - matchers:
-        - prefix: /application
+        - prefix: /callback
       routeAction:
         single:
           upstream:
