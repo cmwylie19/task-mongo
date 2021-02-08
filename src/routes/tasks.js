@@ -28,4 +28,7 @@ router.get("/gettask", function (req, res) {
   task.list(req, res);
 });
 
+router.delete("/deletetask", (req, res) => {
+  task.delete(req, res);
+});
 module.exports = router;

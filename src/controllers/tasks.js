@@ -8,6 +8,14 @@ const Task = require("../models/tasks");
 // add active
 
 // delete active
+exports.delete = (req, res) => {
+  Task.deleteOne({ _id: req.body._id }).exec((err, result) => {
+    if (err) {
+      res.send(400, err);
+    }
+    res.send(result);
+  });
+};
 
 exports.create = function (req, res) {
   var newTask = new Task(req.body);
