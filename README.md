@@ -41,7 +41,7 @@ kubectl patch -n gloo-system gateway gateway-proxy --type merge --patch "$(cat m
 
 Health
 ```
-curl  $(glooctl proxy url)/application/healthz | jq 
+curl  $(glooctl proxy url)/callback | jq 
 ```
 
 Create
@@ -56,5 +56,5 @@ curl $(glooctl proxy url)/tasks/gettask | jq .
 
 UpdateTasks
 ```
-curl -X PUT "Content-Type: application/json" --data '{"_id":"601995614801ab6dca257a01"}' $(glooctl proxy url)/tasks/updatetask
+curl -X PUT "Content-Type: application/json" --data '{"_id":"602156048cf503b0611e8d37", "title":"Updated Title"}' $(glooctl proxy url)/tasks/updatetask
 ```
