@@ -29,21 +29,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:          
-    app: mongo
-  name: mongo
-  namespace: default
+    app: mongo-db
+  name: mongodb-deployment 
 spec:         
   replicas: 1    
   selector: 
     matchLabels:
-      app: mongo
+      app: mongodb-pod
   template:
     metadata:
       labels:
-        app: mongo
+        app: mongodb-pod
     spec:
       containers:
-      - name: mongo
+      - name: mongodb
         volumeMounts:
           - mountPath: /var/lib/mongo
             name: mo-data
@@ -60,13 +59,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: mongo
-  name: mongo
-  namespace: default
+    app: mongo-db
+  name: mongodb-service
 spec:
   ports:
     - port: 27017
       targetPort: 27017
   selector:
-    app: mongo
-  # type: ClusterIP
+    app: mongodb-pod
+  type: ClusterIP
