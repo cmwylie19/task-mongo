@@ -58,3 +58,6 @@ UpdateTasks
 ```
 curl -X PUT "Content-Type: application/json" --data '{"_id":"602156048cf503b0611e8d37", "title":"Updated Title"}' $(glooctl proxy url)/tasks/updatetask
 ```
+
+### Drawing
+https://docs.google.com/drawings/d/1hrZytdFghyOOYyfvZGXWqZ5re3tKq-3iaO838I7Khbw/edit
