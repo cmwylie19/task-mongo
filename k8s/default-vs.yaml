@@ -36,33 +36,22 @@ spec:
       #       namespace: gloo-system
     routes:
       - matchers:
-          - prefix: /certs
-        routeAction:
-          single:
-            upstream:
-              name: certs-upstream
-              namespace: gloo-system
-        options:
-          prefixRewrite: /auth/realms/edb-api/protocol/openid-connect/certs
-          autoHostRewrite: true
-      - matchers:
           - prefix: /callback
         delegateAction:
           ref:
             name: callback
             namespace: "gloo-system"
         # options:
-        #   extauth:
-        #     configRef:
-        #       name: google-oidc
-        #       namespace: gloo-system
+        #     extauth:
+        #       configRef:
+        #         name: google-oidc
+        #         namespace: gloo-system
       - matchers:
           - prefix: /check/health
         directResponseAction:
           status: 200
           body: "healthy!"
-      - name: test
-        matchers:
+      - matchers:
           - prefix: /tasks
         delegateAction:
           ref:
@@ -73,11 +62,3 @@ spec:
         #     configRef:
         #       name: apikey-auth
         #       namespace: gloo-system
-        options:
-          ratelimitBasic:
-            anonymous_limits:
-              requests_per_unit: 3
-              unit: MINUTE
-            authorized_limits:
-              requests_per_unit: 5
-              unit: MINUTE
