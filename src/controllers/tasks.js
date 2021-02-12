@@ -19,13 +19,12 @@ exports.delete = (req, res) => {
 
 exports.create = function (req, res) {
   var newTask = new Task(req.body);
-  console.log(req.body);
-  newTask.save(function (err) {
+  newTask.save(function (err,data) {
     if (err) {
       res.status(400).send(err + " Unable to save task to database");
     } else {
       // res.redirect("/tasks/gettask");
-      res.send(`added task`);
+      res.send(data);
     }
   });
 };

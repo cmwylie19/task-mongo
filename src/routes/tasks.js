@@ -14,9 +14,7 @@ router.get("/", function (req, res) {
   res.send("Hello");
 });
 
-router.post("/addtask", function (req, res) {
-  // res.send(req.body)
-  console.log(`add task`);
+router.post("/", function (req, res) {
   task.create(req, res);
 });
 
