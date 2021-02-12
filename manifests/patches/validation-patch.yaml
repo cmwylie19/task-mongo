@@ -1,4 +1,0 @@
-spec:
-  gateway:
-    validation:
-      alwaysAccept: false
