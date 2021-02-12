@@ -10,10 +10,6 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/", function (req, res) {
-  res.send("Hello");
-});
-
 router.post("/", function (req, res) {
   task.create(req, res);
 });
@@ -22,11 +18,11 @@ router.put("/", function (req, res) {
   task.update(req, res);
 });
 
-router.get("/gettask", function (req, res) {
+router.get("/", function (req, res) {
   task.list(req, res);
 });
 
-router.delete("/deletetask", (req, res) => {
+router.delete("/", (req, res) => {
   task.delete(req, res);
 });
 module.exports = router;
