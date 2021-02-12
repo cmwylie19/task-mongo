@@ -10,6 +10,13 @@ spec:
   bindPort: 8080
   httpGateway:
     options:
+      waf:
+        customInterventionMessage: 'ModSecurity intervention! Custom message details here..'
+        ruleSets:
+        - ruleStr: |
+            # Turn rule engine on
+            SecRuleEngine On
+            SecRule REQUEST_HEADERS:User-Agent "scammer" "deny,status:403,id:107,phase:1,msg:'blocked scammer'"
       healthCheck:
         path: /check/healthz
       httpConnectionManagerSettings:

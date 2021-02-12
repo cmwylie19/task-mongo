@@ -12,6 +12,20 @@ spec:
   selector:
     app: task
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: task-blue
+  name: task-blue
+  namespace: default
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: task-blue
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,6 +46,34 @@ spec:
       containers:
         - image: docker.io/cmwylie19/task-service-dev:latest
           name: task
+          env:
+            - name: MONGO_URL
+              value: mongodb://mongodb-service:27017/tasks
+          ports:
+            - containerPort: 8080
+              name: http
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: task-blue
+  name: task-blue
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: task-blue
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: task-blue
+    spec:
+      containers:
+        - image: docker.io/cmwylie19/task-service-dev:blue
+          name: task-blur
           env:
             - name: MONGO_URL
               value: mongodb://mongodb-service:27017/tasks

@@ -1,0 +1,16 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteTable
+metadata:
+  name: blue
+  namespace: gloo-system
+spec:
+  routes:
+    - matchers:
+        - prefix: /new-feature
+      routeAction:
+        single:
+          upstream:
+            name: default-task-blue-8080
+            namespace: gloo-system
+
+                
