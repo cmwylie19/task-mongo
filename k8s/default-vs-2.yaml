@@ -1,12 +1,12 @@
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
-  name: default
+  name: default-2
   namespace: gloo-system
 spec:
   virtualHost:
     domains:
-      - "*"
+      - "foo"
     options:
       stagedTransformations:
         early:
@@ -51,16 +51,23 @@ spec:
           ref:
             name: callback
             namespace: "gloo-system"
-        # options:
-        #   extauth:
-        #     configRef:
-        #       name: google-oidc
-        #       namespace: gloo-system
+        options:
+          extauth:
+            configRef:
+              name: google-oidc
+              namespace: gloo-system
       - matchers:
           - prefix: /check/health
         directResponseAction:
           status: 200
           body: "healthy!"
+      - name: test
+        matchers:
+          - prefix: /new-feature
+        delegateAction:
+          ref:
+            name: blue
+            namespace: "gloo-system"
       - name: test
         matchers:
           - prefix: /tasks

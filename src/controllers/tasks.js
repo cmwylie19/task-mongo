@@ -43,6 +43,18 @@ exports.update = (req, res) => {
   });
 };
 
+exports.listOne = function (req, res) {
+  Task.find({_id:req.params.id}).exec(function (err, tasks) {
+    if (err) {
+      return res.send(500, err);
+    }
+    res.send({
+      tasks: tasks,
+    });
+  });
+};
+
+
 exports.list = function (req, res) {
   Task.find({}).exec(function (err, tasks) {
     if (err) {

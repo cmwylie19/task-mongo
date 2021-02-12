@@ -1,0 +1,4 @@
+gateway:
+  enabled: false
+ingress:
+  enabled: true

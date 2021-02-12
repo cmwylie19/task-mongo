@@ -10,25 +10,23 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/", function (req, res) {
-  res.send("Hello");
-});
-
-router.post("/addtask", function (req, res) {
-  // res.send(req.body)
-  console.log(`add task`);
+router.post("/", function (req, res) {
   task.create(req, res);
 });
 
-router.put("/updatetask", function (req, res) {
+router.put("/", function (req, res) {
   task.update(req, res);
 });
 
-router.get("/gettask", function (req, res) {
+router.get("/", function (req, res) {
   task.list(req, res);
 });
 
-router.delete("/deletetask", (req, res) => {
+router.get("/:id", function (req, res) {
+  task.listOne(req, res);
+});
+
+router.delete("/", (req, res) => {
   task.delete(req, res);
 });
 module.exports = router;

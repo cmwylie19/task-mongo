@@ -1,0 +1,41 @@
+apiVersion: gloo.solo.io/v1
+kind: Settings
+metadata:
+  labels:
+    app: gloo
+    app.kubernetes.io/managed-by: Helm
+    gloo: settings
+  name: default
+  namespace: gloo-system
+spec:
+  discovery:
+    fdsMode: WHITELIST
+  discoveryNamespace: gloo-system
+  extauth:
+    extauthzServerRef:
+      name: extauth
+      namespace: gloo-system
+    userIdHeader: x-user-id
+  gateway:
+    validation:
+      alwaysAccept: false
+      proxyValidationServerAddr: gloo:9988
+  gloo:
+    disableKubernetesDestinations: false
+    disableProxyGarbageCollection: false
+    enableRestEds: false
+    # invalidConfigPolicy:
+    #   invalidRouteResponseBody: Gloo Gateway has invalid configuration. Administrators
+    #     should run glooctl check to find and fix config errors.
+    #   invalidRouteResponseCode: 404
+    #   replaceInvalidRoutes: true
+    restXdsBindAddr: 0.0.0.0:9976
+    xdsBindAddr: 0.0.0.0:9977
+  kubernetesArtifactSource: {}
+  kubernetesConfigSource: {}
+  kubernetesSecretSource: {}
+  ratelimitServer:
+    ratelimit_server_ref:
+      name: rate-limit
+      namespace: gloo-system
+  refreshRate: 60s

@@ -5,7 +5,7 @@ const db = require("./db");
 const tasks = require("./routes/tasks");
 const bodyParser = require("body-parser");
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(
@@ -14,7 +14,9 @@ app.use(
     extended: true,
   })
 );
-
+app.get('/new-feature', (req,res)=>{
+  res.send("This is a new feature!\nX-forwarded-for: "+ req.headers["x-forwarded-for"]+"\nRemote Address: "+req.connection.remoteAddress)
+})
 app.use("/tasks", tasks);
 app.get("/callback", (req, res) => {
   res.send(JSON.stringify(req.headers, undefined, 2));
