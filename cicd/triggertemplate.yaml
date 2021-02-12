@@ -1,0 +1,28 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  params:
+  - name: title
+    description: "Title"
+    default: "test"
+  - name: body
+    description: "Body of Mesg (For testing)"
+    default: "Test body"
+  - name: link
+    description: "Link of Mesg"
+    default: "http://who.com"
+  - name: contenttype
+    description: "Headers of event"
+    default: "json"
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: dev-run-
+      spec:
+        pipelineRef:
+          name: dev
+        params:
+          

@@ -1,0 +1,11 @@
+options:
+    accessLoggingService:
+      accessLog:
+      - fileSink:
+          jsonFormat:
+            duration: '%DURATION%'
+            protocol: '%PROTOCOL%'
+            upstreamCluster: '%UPSTREAM_CLUSTER%'
+            upstreamHost: '%UPSTREAM_HOST%'
+            xForwardedFor: '%REQ(X-FORWARDED-FOR)%'
+          path: /dev/stdout
