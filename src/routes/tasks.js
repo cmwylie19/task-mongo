@@ -18,7 +18,7 @@ router.post("/", function (req, res) {
   task.create(req, res);
 });
 
-router.put("/updatetask", function (req, res) {
+router.put("/", function (req, res) {
   task.update(req, res);
 });
 
