@@ -1,0 +1,9 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: APIDoc
+metadata:
+  name: task-schema
+  namespace: default
+spec:
+  openApi:
+    content:
+      fetchUrl: https://gist.githubusercontent.com/cmwylie19/f9a68a6c8b2066bc06c5a2188e4c03c5/raw/78283fac54298fc961c7ebbe4d38e88df8123500/openapi.yaml

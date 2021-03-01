@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.2
 info:
   description: |
     This is a OpenAPI spec for the task service demo
@@ -10,10 +10,6 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/cmwylie19/task-demo/1.0.0
 tags:
   - name: tasks
     description: Operations on tasks
@@ -25,6 +21,7 @@ paths:
       tags:
         - callback
       summary: Display headers to user
+      operationId: getCallback
       responses:
         '200':
           description: Show headers to user
@@ -37,6 +34,7 @@ paths:
       tags: 
         - tasks
       summary: Get all tasks
+      operationId: getTasks
       responses:
         '200':
           description: Successful request
@@ -48,6 +46,7 @@ paths:
       tags:
         - tasks
       summary: Create a task
+      operationId: createTask
       responses:
         '200':
           description: Successfully created task
@@ -62,6 +61,7 @@ paths:
       tags:
         - tasks
       summary: Delete a task
+      operationId: deleteTask
       parameters:
         - name: id
           in: path
@@ -81,6 +81,7 @@ paths:
       tags:
         - tasks
       summary: Update an existing task
+      operationId: updateTask
       parameters:
         - name: id
           in: path
@@ -100,6 +101,7 @@ paths:
       tags:
         - tasks
       summary: Get a task
+      operationId: getTask
       parameters:
         - name: id
           in: path
@@ -215,51 +217,9 @@ components:
         cache-control:
           type: string
           example: "max-age=0"
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
   requestBodies:
     Task:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Task'
-    Pet:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Pet'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Pet'
-      description: Pet object that needs to be added to the store
-      required: true
-    UserArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
-      description: List of user object
-      required: true
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
-          scopes:
-            'write:pets': modify pets in your account
-            'read:pets': read your pets
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
