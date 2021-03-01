@@ -9,7 +9,7 @@ const Task = require("../models/tasks");
 
 // delete active
 exports.delete = (req, res) => {
-  Task.deleteOne({ _id: req.body._id }).exec((err, result) => {
+  Task.deleteOne({ _id: req.params.id }).exec((err, result) => {
     if (err) {
       res.send(400, err);
     }
@@ -31,7 +31,7 @@ exports.create = function (req, res) {
 
 exports.update = (req, res) => {
   Task.updateOne(
-    { _id: req.body._id },
+    { _id: req.params.id },
     { $set: { ts: Date.now().toString(), title: req.body.title } },
     { runValidators: true }
   ).exec((err, result) => {

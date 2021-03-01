@@ -14,7 +14,7 @@ router.post("/", function (req, res) {
   task.create(req, res);
 });
 
-router.put("/", function (req, res) {
+router.put("/:id", function (req, res) {
   task.update(req, res);
 });
 
@@ -22,7 +22,7 @@ router.get("/", function (req, res) {
   task.list(req, res);
 });
 
-router.delete("/", (req, res) => {
+router.delete("/:id", (req, res) => {
   task.delete(req, res);
 });
 

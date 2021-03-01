@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is a OpenAPI spec for the task service demo
+    The [source code](https://github.com/cmwylie19/task-mongo) can be found in the GitHub repo.
+  version: "1.0.0"
+  title: Task Service Demo
+  contact:
+    email: casey.wylie@solo.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/cmwylie19/task-demo/1.0.0
+tags:
+  - name: tasks
+    description: Operations on tasks
+  - name: callback
+    description: Callback endpoint
+paths:
+  /callback:
+    get:
+      tags:
+        - callback
+      summary: Display headers to user
+      responses:
+        '200':
+          description: Show headers to user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Callback'
+  /tasks:
+    get:
+      tags: 
+        - tasks
+      summary: Get all tasks
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllTasks'
+    post:
+      tags:
+        - tasks
+      summary: Create a task
+      responses:
+        '200':
+          description: Successfully created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTask'
+      requestBody:
+        $ref: '#/components/requestBodies/Task'
+  '/tasks/{id}':  
+    delete: 
+      tags:
+        - tasks
+      summary: Delete a task
+      parameters:
+        - name: id
+          in: path
+          description: ID of task to delete
+          required: true
+          schema:
+            type: string
+            default: '1232'
+      responses:
+        '200':
+          description: Successfully deleted task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTask'
+    put:
+      tags:
+        - tasks
+      summary: Update an existing task
+      parameters:
+        - name: id
+          in: path
+          description: ID of task to update
+          required: true
+          schema:
+            type: string
+            default: '1232'
+      responses:
+        '200':
+          description: Successfully deleted task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTask'
+    get:
+      tags:
+        - tasks
+      summary: Get a task
+      parameters:
+        - name: id
+          in: path
+          description: ID of task to get
+          required: true
+          schema:
+            type: string
+            default: '1232'
+      responses:
+        '200':
+          description: Successfully deleted task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTask'
+components:
+  schemas:
+    GetTask:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "602eb56599c3744adfed0679"
+        completed:
+          type: boolean
+          example: true
+        notes:
+          type: array
+          items:
+            type: object
+            properties:
+              author: 
+                type: string
+                example: "casey.wylie@solo.io"
+              text:
+                type: string
+                example: "This is done"
+              created:
+                type: string
+                example: "1613583083009"
+          example: []
+        owner: 
+          type: string
+          example: casey.wylie@solo.io
+    Task:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Go to the mall"
+        listId:
+          type: string
+          example: "603d25c54e96d821aaaa52bf"
+    UpdateTask:
+      type: object
+      properties:
+        n:
+          type: integer
+          example: 1
+        ok:
+          type: integer
+          example: 1
+        deletedCount:
+          type: integer
+          example: 1
+    DeleteTask:
+      type: object
+      properties:
+        n:
+          type: integer
+          example: 1
+        ok:
+          type: integer
+          example: 1
+        deletedCount:
+          type: integer
+          example: 1
+    CreateTask:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "603d25c54e96d821aaaa52bf"
+        title:
+          type: string
+          example: "Go to the mall"
+        ts: 
+          type: string
+          example: "Saturday, 5:30pm"
+        __v:
+          type: integer
+          example: 9
+    AllTasks:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: object
+          example: [{"_id":"1","complete":false, "notes":[]},{"_id":"2", "complete":true, "notes":[{"text":"Get milk","author":"casey.wylie@solo.io","created":1613583086127}]}]
+    Callback:
+      type: object
+      properties:
+        jwt:
+          type: string
+          example: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZlZDgwZmVjNTZkYjk5MjMzZDRiNGY2MGZiYWZkYmFlYjkxODZjNzMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI5NTI4ODMxMTEzNTItM2htYXZpczhkODV2dXA1YWlwYTE2NGFzcWQ0ZTJ1bmYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NTI4ODMxMTEzNTItM2htYXZpczhkODV2dXA1YWlwYTE2NGFzcWQ0ZTJ1bmYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDI4ODUxNDE1NDAyMDU2ODMyODkiLCJoZCI6InNvbG8uaW8iLCJlbWFpbCI6ImNhc2V5Lnd5bGllQHNvbG8uaW8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkR4MTgxczVOZmliRzlab0FnRzFLanciLCJpYXQiOjE2MTQ2MTYyOTQsImV4cCI6MTYxNDYxOTg5NH0.CyERCM_D173plRwpt_AzvZ9h8ZKIWp_fhlNWmpQzGAxqfv_mFLnm8M45nUyLcQYjnQuH36NcsWgcH2Bq5ygpw9yzXLFQenwYmLgVbTaL3LoPkNk5r5A_OebA80RniDwaQwDGy55j3v1Ruxm3YiuVkog00TmuQ7-KlflqGl7uI73GjubCyGA8qiZkElbUdNtJ5dJSjYAcF0zyAV0Ez2LytKyIaCMOwtPJX6hU8PE2x6Dn_P8J-n3YxSB__4PJCDVDMzu29cR62VzonMFUD5Absx4FKyXXK8Fu_qJIQswL4xrrz4Wq29x78HOW2VDf4ikn9ERS6o_AZhPPR8_To6zVKQ; access_token=ya29.A0AfH6SMDYDKm3O5v1EC9crMR8sihLoWv4oDpaYhV6-iNMRlcLNPeXcB2uKeCmYbOqgqbvnqDbaiEDTa8JP7ESA6Ru4EToIsS9yYkPaYpBbJiKlhfjpftATZ8lYbCqNa5TVtoNe3DTPSLF_XRaVrxJFyT2fKEy9w"
+        host:
+          type: string
+          example: "localhost:8080"
+        x-token:
+          type: string
+          example: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZlZDgwZmVjNTZkYjk5MjMzZDRiNGY2MGZiYWZkYmFlYjkxODZjNzMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI5NTI4ODMxMTEzNTItM2htYXZpczhkODV2dXA1YWlwYTE2NGFzcWQ0ZTJ1bmYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NTI4ODMxMTEzNTItM2htYXZpczhkODV2dXA1YWlwYTE2NGFzcWQ0ZTJ1bmYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDI4ODUxNDE1NDAyMDU2ODMyODkiLCJoZCI6InNvbG8uaW8iLCJlbWFpbCI6ImNhc2V5Lnd5bGllQHNvbG8uaW8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6ImNibFY4bFNrX05nWHpTVF9JMHEza1EiLCJpYXQiOjE2MTQ2MTY0MTYsImV4cCI6MTYxNDYyMDAxNn0.GykpSZFnQrgMT5AJKpSx0SMAd-dSJ-11IdDnhBx0AeYxyPoO1I6VJRXvp9znThAcWFP3IwJRTHyeMdEZqdmo_AwQ1dg3Wkh_J8sOb3uiTIse-RaAZmzw2v9otYsU1uTsbEkERqEgxlE8WEBxiqQ-3HDiRS8bXD1x9f2t2GmCtKVVEBwVCt2T-abRd26jIS0evQQdrXuY2-chCU5FaxgTcOpUGw3MgtimAcMroDVAI9IqVUyDnOaRNHAfjqxkc5H2a1gidCgXRybX5Nn4cu1DqdBkn5X7hmtBGz2QjQjD3-m0QKX1aAAPYfLf_RQk1YiLhUAk9xNzMtHajelgzXXaRg"
+        cache-control:
+          type: string
+          example: "max-age=0"
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  requestBodies:
+    Task:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Task'
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      description: List of user object
+      required: true
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
