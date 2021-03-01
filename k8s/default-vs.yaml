@@ -30,22 +30,27 @@ spec:
             parseBodyBehavior: DontParse
             body:
               text: '{% if header(":status") == "429" %}<html><body style="display:flex;height:100vh;width:100%;align-items:center;flex-direction:column;justify-content:center;background-color:black;color:red;text-align:center"><h1>Too many Requests!</h1><br/><p style="color:white;">Try again after 10 seconds</p></body></html>{% else %}{{ body() }}{% endif %}'
-      # rateLimitConfigs:
-      #   refs:
-      #     - name: db-policy
-      #       namespace: gloo-system
+      rateLimitConfigs:
+        refs:
+          - name: db-policy
+            namespace: gloo-system
     routes:
+      - matchers:
+          - prefix: /search
+        redirectAction:
+          hostRedirect: google.com
+          
       - matchers:
           - prefix: /callback
         delegateAction:
           ref:
             name: callback
             namespace: "gloo-system"
-        # options:
-        #     extauth:
-        #       configRef:
-        #         name: google-oidc
-        #         namespace: gloo-system
+        options:
+            extauth:
+              configRef:
+                name: google-oidc
+                namespace: gloo-system
       - matchers:
           - prefix: /check/health
         directResponseAction:

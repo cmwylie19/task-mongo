@@ -1,0 +1,12 @@
+apiVersion: enterprise.gloo.solo.io/v1
+kind: AuthConfig
+metadata:
+  name: opa
+  namespace: gloo-system
+spec:
+  configs:
+  - opa_auth:
+      modules:
+      - name: allow-get-users
+        namespace: gloo-system
+      query: "data.test.allow == true"

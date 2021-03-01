@@ -1,0 +1,377 @@
+apiServer:
+  deployment:
+    SslSecretName: ""
+    envoy:
+      bootstrapConfig:
+        configMapName: default-apiserver-envoy-config
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        repository: grpcserver-envoy
+        tag: 1.6.13
+    floatingUserId: false
+    runAsUser: 10101
+    server:
+      grpcPort: 10101
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        repository: grpcserver-ee
+        tag: 1.6.13
+      oauth:
+        client: ""
+        server: ""
+    stats: null
+    ui:
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        repository: grpcserver-ui
+        tag: 1.6.13
+      staticPort: 8080
+  enable: true
+  enableBeta: true
+  enterprise: true
+  service:
+    name: apiserver-ui
+    serviceType: ClusterIP
+create_license_secret: true
+global:
+  extensions:
+    extAuth:
+      deployment:
+        floatingUserId: false
+        fsGroup: 10101
+        image:
+          extended: false
+          pullPolicy: IfNotPresent
+          repository: extauth-ee
+          tag: 1.6.13
+        name: extauth
+        port: 8083
+        runAsUser: 10101
+        stats: null
+      enabled: true
+      envoySidecar: false
+      service:
+        name: extauth
+        port: 8083
+      serviceName: ext-auth
+      signingKey:
+        name: extauth-signing-key
+        signing-key: ""
+      standaloneDeployment: true
+      tlsEnabled: false
+      userIdHeader: x-user-id
+  glooMtls:
+    enabled: false
+    envoy:
+      image:
+        extended: false
+        repository: gloo-ee-envoy-wrapper
+        tag: 1.6.13
+    sds:
+      image:
+        extended: false
+        repository: sds
+        tag: 1.6.8
+  glooRbac:
+    create: true
+    nameSuffix: ""
+    namespaced: false
+  glooStats:
+    enabled: true
+  image:
+    extended: false
+    pullPolicy: IfNotPresent
+    registry: quay.io/solo-io
+  istioSDS: {}
+gloo:
+  discovery:
+    deployment:
+      floatingUserId: false
+      fsGroup: 10101
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        registry: quay.io/solo-io
+        repository: discovery
+        tag: 1.6.8
+      runAsUser: 10101
+    enabled: true
+    fdsMode: WHITELIST
+    serviceAccount:
+      disableAutomount: false
+  gateway:
+    certGenJob:
+      enabled: true
+      floatingUserId: false
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        registry: quay.io/solo-io
+        repository: certgen
+        tag: 1.6.8
+      restartPolicy: OnFailure
+      runAsUser: 10101
+      setTtlAfterFinished: true
+      ttlSecondsAfterFinished: 60
+    deployment:
+      floatingUserId: false
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        registry: quay.io/solo-io
+        repository: gateway
+        tag: 1.6.8
+      runAsUser: 10101
+    enabled: true
+    proxyServiceAccount:
+      disableAutomount: false
+    readGatewaysFromAllNamespaces: false
+    serviceAccount:
+      disableAutomount: false
+    updateValues: true
+    validation:
+      allowWarnings: true
+      alwaysAcceptResources: true
+      enabled: true
+      failurePolicy: Ignore
+      secretName: gateway-validation-certs
+      webhook:
+        enabled: true
+  gatewayProxies:
+    gatewayProxy:
+      antiAffinity: false
+      envoyApiVersion: V3
+      envoyBootstrapExtensions: null
+      envoyStaticClusters: null
+      failover:
+        enabled: false
+        secretName: ""
+      kind:
+        deployment:
+          replicas: 1
+      podTemplate:
+        customReadinessProbe: {}
+        disableNetBind: true
+        floatingUserId: false
+        fsGroup: 10101
+        gracefulShutdown:
+          enabled: false
+          sleepTimeSeconds: 25
+        httpPort: 8080
+        httpsPort: 8443
+        image:
+          extended: false
+          pullPolicy: IfNotPresent
+          repository: gloo-ee-envoy-wrapper
+          tag: 1.6.13
+        probes: false
+        runAsUser: 10101
+        runUnprivileged: true
+        terminationGracePeriodSeconds: 0
+        tolerations: null
+      readConfig: false
+      readConfigMulticluster: false
+      service:
+        extraAnnotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8081"
+          prometheus.io/scrape: "true"
+        httpPort: 80
+        httpsFirst: false
+        httpsPort: 443
+        type: LoadBalancer
+  gloo:
+    deployment:
+      disableUsageStatistics: false
+      floatingUserId: false
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        repository: gloo-ee
+        tag: 1.6.13
+      replicas: 1
+      runAsUser: 10101
+      validationPort: 9988
+      xdsPort: 9977
+    serviceAccount:
+      disableAutomount: false
+  ingressProxy:
+    deployment:
+      floatingUserId: false
+      image:
+        extended: false
+        pullPolicy: IfNotPresent
+        repository: gloo-ee-envoy-wrapper
+        tag: 1.6.13
+      runAsUser: 0
+    label: ""
+  settings:
+    aws:
+      enableCredentialsDiscovery: false
+      enableServiceAccountCredentials: false
+      stsCredentialsRegion: ""
+    create: false
+    disableKubernetesDestinations: false
+    disableProxyGarbageCollection: false
+    integrations:
+      consul: null
+      consulUpstreamDiscovery: null
+      knative:
+        enabled: false
+        proxy:
+          image:
+            extended: false
+            pullPolicy: IfNotPresent
+            repository: gloo-ee-envoy-wrapper
+            tag: 1.6.13
+        requireIngressClass: null
+        version: 0.10.0
+    linkerd: false
+    singleNamespace: false
+grafana:
+  adminPassword: admin
+  adminUser: admin
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - disableDeletion: false
+        editable: true
+        folder: gloo
+        name: gloo
+        options:
+          path: /var/lib/grafana/dashboards/gloo
+        orgId: 1
+        type: file
+  dashboardsConfigMaps:
+    gloo: glooe-grafana-custom-dashboards
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - access: proxy
+        isDefault: true
+        name: gloo
+        type: prometheus
+        url: http://glooe-prometheus-server:80
+  defaultInstallationEnabled: true
+  fullnameOverride: glooe-grafana
+  initChownData:
+    enabled: false
+  nameOverride: glooe-grafana
+  persistence:
+    enabled: true
+    size: 100Mi
+  rbac:
+    create: false
+    pspEnabled: false
+  securityContext:
+    fsGroup: 472
+    runAsGroup: 472
+    runAsUser: 472
+  testFramework:
+    enabled: false
+license_secret_name: license
+observability:
+  customGrafana:
+    apiKey: ""
+    caBundle: ""
+    enabled: false
+    password: ""
+    url: ""
+    username: ""
+  deployment:
+    floatingUserId: false
+    image:
+      extended: false
+      pullPolicy: IfNotPresent
+      repository: observability-ee
+      tag: 1.6.13
+    runAsUser: 10101
+    stats: null
+  enabled: true
+  upstreamDashboardTemplate: ""
+prometheus:
+  alertmanager:
+    enabled: false
+  enabled: true
+  kubeStateMetrics:
+    fullnameOverride: glooe-prometheus-kube-state-metrics
+  nameOverride: glooe-prometheus
+  nodeExporter:
+    enabled: false
+  pushgateway:
+    enabled: false
+  server:
+    fullnameOverride: glooe-prometheus-server
+    global:
+      evaluation_interval: 10s
+      scrape_interval: 10s
+    persistentVolume:
+      size: 16Gi
+rateLimit:
+  deployment:
+    dynamodb:
+      batchSize: 100
+      consistentReads: true
+      region: us-east-2
+      tableName: rate-limits
+    floatingUserId: false
+    glooAddress: gloo:9977
+    image:
+      extended: false
+      pullPolicy: IfNotPresent
+      repository: rate-limit-ee
+      tag: 1.6.13
+    name: rate-limit
+    runAsUser: 10101
+    stats: null
+  enabled: true
+  service:
+    name: rate-limit
+    port: 18081
+rbac:
+  create: false
+redis:
+  deployment:
+    clientSideShardingEnabled: false
+    floatingUserId: false
+    fsGroup: 999
+    image:
+      extended: false
+      pullPolicy: IfNotPresent
+      registry: docker.io
+      repository: redis
+      tag: "5"
+    name: redis
+    runAsGroup: 999
+    runAsUser: 999
+    staticPort: 6379
+  service:
+    name: redis
+    port: 6379
+settings:
+  aws:
+    enableCredentialsDiscovery: false
+    enableServiceAccountCredentials: false
+    stsCredentialsRegion: ""
+  create: true
+  disableKubernetesDestinations: false
+  disableProxyGarbageCollection: false
+  integrations:
+    consul: null
+    consulUpstreamDiscovery: null
+    knative:
+      enabled: false
+      proxy:
+        image:
+          extended: false
+      requireIngressClass: null
+      version: ""
+  linkerd: false
+  rateLimit: {}
+  singleNamespace: false
+

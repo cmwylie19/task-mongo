@@ -1,0 +1,4 @@
+settings:
+  watchNamespaces:
+  - default
+  - gloo-system
