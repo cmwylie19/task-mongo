@@ -1,0 +1,25 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: APIProduct
+metadata:
+  name: task-product
+  namespace: default
+
+spec:
+  displayInfo: 
+    description: Task Product
+    title: Task Product
+  versions:
+  - name: v1
+    apis:
+    - apiDoc:
+        name: task-schema
+        namespace: default
+    defaultRoute:
+      inlineRoute:
+        backends:
+        - kube:
+            name: task
+            namespace: default
+            port: 8080
+    tags:
+      stable: {}

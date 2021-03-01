@@ -1,0 +1,23 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+  namespace: dev-portal
+spec:
+  displayName: developers
+  accessLevel:
+    apiProducts:
+    - name: task-product
+      namespace: default
+      environments:
+      - name: dev
+        namespace: default
+        plans:
+        - basic
+    portals:
+    - name: task-portal
+      namespace: default
+
+  userSelector:
+    matchLabels:
+      groups.devportal.solo.io/dev-portal.developers: "true"
