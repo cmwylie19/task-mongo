@@ -24,6 +24,12 @@ spec:
       headerManipulation:
         requestHeadersToRemove:
         - "cookie"
+        - "x-token"
+        - "accept"
+        - "sec-ch-ua"
+        - "sec-ch-ua-mobile"
+        - "x-request-id"
+        - "user-agent"
       transformations:
         responseTransformation:
           transformationTemplate:

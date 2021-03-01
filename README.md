@@ -1,5 +1,6 @@
 # Task
 
+[OpenAPI spec](https://gist.githubusercontent.com/cmwylie19/f9a68a6c8b2066bc06c5a2188e4c03c5/raw/0d5d7314e154fd7d1311f9cecb8a444f11bd8887/openapi.yaml)
 ## Deploy k8s
 First deploy mongo
 ```
