@@ -1,4 +1,7 @@
-settings:
-  watchNamespaces:
-  - default
-  - gloo-system
+gloo:
+  enabled: true
+licenseKey:
+  secretRef:
+    name: license
+    namespace: gloo-system
+    key: license-key

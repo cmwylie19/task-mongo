@@ -24,6 +24,6 @@ spec:
         session:
           failOnFetchFailure: true
           redis:
-            cookieName: session
+            cookieName: cookie
             options:
               host: redis.gloo-system.svc.cluster.local:6379

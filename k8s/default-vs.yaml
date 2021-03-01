@@ -30,6 +30,7 @@ spec:
         - "sec-ch-ua-mobile"
         - "x-request-id"
         - "user-agent"
+        - "if-none-match"
       transformations:
         responseTransformation:
           transformationTemplate:
