@@ -1,3 +1,4 @@
+apiVersion: enterprise.gloo.solo.io/v1
 kind: AuthConfig
 metadata:
   name: apikey-auth
