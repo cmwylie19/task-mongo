@@ -1,0 +1,30 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: httpbin
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+    - '*'
+    options:
+      headerManipulation:
+        requestHeadersToRemove:
+        - "X-Envoy-Expected-Rq-Timeout-Ms"
+        - "X-Envoy-Internal"
+    routes:
+    - matchers:
+      - prefix: /
+      routeAction:
+        single:
+          kube:
+            ref:
+              name: httpbin
+              namespace: default
+            port: 8000
+
+    # options:
+    #   extauth:
+    #     configRef:
+    #       name: oidc-dex
+    #       namespace: gloo-system

@@ -14,7 +14,9 @@ app.use(
     extended: true,
   })
 );
-
+app.get('/auth/logout',(req,res)=>{
+  res.send("Logged out")
+})
 app.use("/tasks", tasks);
 app.get("/callback", (req, res) => {
   res.send(JSON.stringify(req.headers, undefined, 2));

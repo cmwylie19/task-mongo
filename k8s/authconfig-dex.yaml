@@ -1,34 +1,28 @@
 apiVersion: enterprise.gloo.solo.io/v1
 kind: AuthConfig
 metadata:
-  name: google-oidc
+  name: oidc-dex
   namespace: gloo-system
 spec:
   configs:
   - oauth2:
       oidcAuthorizationCode:
-        app_url: http://localhost:8080
-        callback_path: /callback
-        client_id: 952883111352-3hmavis8d85vup5aipa164asqd4e2unf.apps.googleusercontent.com
+        app_url: http://localhost:8000/
+        callback_path: /get
+        client_id: gloo
         client_secret_ref:
-          name: google
+          name: oauth
           namespace: gloo-system
-        issuer_url: https://accounts.google.com
-        session:
-          cookieOptions:
-            notSecure: true
+        issuer_url: http://dex.gloo-system.svc.cluster.local:32000/
         scopes:
         - email
-        
-        headers:
-          id_token_header: "x-token"
         session:
           cookieOptions:
             notSecure: true
-            maxAge: 3600
+            maxAge: 360
           failOnFetchFailure: true
           redis:
             cookieName: cookie
             options:
               host: redis.gloo-system.svc.cluster.local:6379
-        logoutPath: /logout
+        logoutPath: /auth/logout

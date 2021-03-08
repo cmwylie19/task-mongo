@@ -7,6 +7,20 @@ spec:
   virtualHost:
     domains:
     - 'pet'
+    options:
+      stagedTransformations:
+        early:
+          requestTransforms:
+            - requestTransformation:
+                transformationTemplate:
+                  extractors:
+                    token:
+                      header: 'cookie'
+                      regex: 'id_token=(.*); .*'
+                      subgroup: 1
+                  headers:
+                    jwt:
+                      text: '{{ token }}'
     routes:
     - matchers:
       - prefix: /
@@ -17,3 +31,9 @@ spec:
               name: petstore
               namespace: default
             port: 8080
+
+    options:
+      extauth:
+        configRef:
+          name: oidc-dex
+          namespace: gloo-system

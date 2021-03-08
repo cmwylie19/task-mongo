@@ -1,0 +1,23 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: default-httpbin-8000
+  namespace: gloo-system
+spec:
+  healthChecks:
+  - healthyThreshold: 1
+    httpHealthCheck:
+      path: /get
+    interval: 5s
+    timeout: 10s
+    unhealthyThreshold: 1
+
+  discoveryMetadata:
+    labels:
+      app: httpbin
+  kube:
+    selector:
+      app: httpbin
+    serviceName: httpbin
+    serviceNamespace: default
+    servicePort: 8000

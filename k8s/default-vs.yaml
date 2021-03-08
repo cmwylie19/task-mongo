@@ -6,7 +6,7 @@ metadata:
 spec:
   virtualHost:
     domains:
-      - "*"
+      - "dev"
     options:
       stagedTransformations:
         early:
@@ -37,16 +37,29 @@ spec:
             parseBodyBehavior: DontParse
             body:
               text: '{% if header(":status") == "429" %}<html><body style="display:flex;height:100vh;width:100%;align-items:center;flex-direction:column;justify-content:center;background-color:black;color:red;text-align:center"><h1>Too many Requests!</h1><br/><p style="color:white;">Try again after 10 seconds</p></body></html>{% else %}{{ body() }}{% endif %}'
-      rateLimitConfigs:
-        refs:
-          - name: db-policy
-            namespace: gloo-system
+      # rateLimitConfigs:
+      #   refs:
+      #     - name: db-policy
+      #       namespace: gloo-system
     routes:
       - matchers:
           - prefix: /search
         redirectAction:
           hostRedirect: google.com
-          
+      - matchers:
+          - prefix: /auth/logout
+        routeAction:
+          single:
+            upstream:
+              name: default-task-8080
+              namespace: gloo-system
+      # - matchers:
+      #     - prefix: /logout
+      #   routeAction:
+      #     single:
+      #       upstream: 
+      #         name: default-redirect-service-8080
+      #         namespace: gloo-system
       - matchers:
           - prefix: /callback
         delegateAction:
@@ -56,7 +69,7 @@ spec:
         options:
             extauth:
               configRef:
-                name: google-oidc
+                name: oidc-dex
                 namespace: gloo-system
       - matchers:
           - prefix: /check/health
