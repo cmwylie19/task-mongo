@@ -7,7 +7,7 @@ spec:
   displayName: developers
   accessLevel:
     apiProducts:
-    - name: task-product
+    - name: petstore-product
       namespace: default
       environments:
       - name: dev
@@ -15,9 +15,8 @@ spec:
         plans:
         - basic
     portals:
-    - name: task-portal
+    - name: petstore-portal
       namespace: default
-
   userSelector:
     matchLabels:
       groups.devportal.solo.io/dev-portal.developers: "true"

@@ -25,3 +25,8 @@ Create the target namespace for the deployment and install the Gloo Portal refer
 k create ns dev-portal
 helm install dev-portal dev-portal/dev-portal -n dev-portal --values gloo-values.yaml
 ```
+
+Verify the install
+```
+k get all -n dev-portal
+```
