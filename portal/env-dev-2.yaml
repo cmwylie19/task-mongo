@@ -5,13 +5,12 @@ metadata:
   namespace: default
 spec:
   domains:
-  - api.example.com
-  - api.example.com:32000
+  - dev.petstore.com
   displayInfo:
     description: This environment is meant for developers to deploy and test their APIs.
     displayName: Development
   apiProducts:
-  - name: petstore-product
+  - name: petstore
     namespace: default
     plans:
     - authPolicy:

@@ -1,0 +1,20 @@
+apiVersion: devportal.solo.io/v1alpha1
+kind: Group
+metadata:
+  name: oidc-group
+  namespace: default
+spec:
+  accessLevel:
+    apiProducts:
+    - name: petstore
+      namespace: default
+      environments:
+      - name: dev
+        namespace: default
+        plans:
+        - basic
+    portals:
+    - name: petstore-portal
+      namespace: default
+  oidcGroup:
+    groupName: devs

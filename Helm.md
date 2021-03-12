@@ -5,6 +5,10 @@
 helm upgrade --values gloo-values.yaml gloo glooe/gloo-ee -n gloo-system 
 ```
 
+## Remove Repo
+```
+helm repo remove stable
+```
 
 ## List Repos
 ```

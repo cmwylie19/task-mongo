@@ -20,6 +20,8 @@ spec:
         - fileSink:
             path: /dev/stdout
             jsonFormat:
+              dynamicMetadata: '%DYNAMIC_METADATA("io.solo.filters.http.modsecurity:audit_log")%'
+              filterState: "%FILTER_STATE(io.solo.modsecurity.audit_log)%"
               protocol: "%PROTOCOL%"
               duration: "%DURATION%"
               upstreamCluster: "%UPSTREAM_CLUSTER%"

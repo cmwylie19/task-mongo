@@ -14,20 +14,23 @@ spec:
   versions:
   - name: v1
     apis:
-    # Specify the API Doc(s) that will be included in the Product
-    # each specifier can include a list of individual operations
-    # to import from the API Doc.
-    #
-    # If none are listed, all the 
-    # operations will be imported from the doc. 
     - apiDoc:
         name: petstore-schema
-        namespace: default
-  
-    # Each imported operation must have a 'route' associated with it.
-    # Routes can be specified on each imported operation, in the API Doc itself.
-    # The Default Route provided here will be used for any operations which do not have a route defined.
-    # A route must be provided for every Operation to enable routing for an API Product.  
+        namespace: default 
+    defaultRoute:
+      inlineRoute:
+        backends:
+        - kube:
+            name: petstore
+            namespace: default
+            port: 8080
+    tags:
+      stable: {}
+  - name: v2
+    apis:
+    - apiDoc:
+        name: petstore-schema
+        namespace: default 
     defaultRoute:
       inlineRoute:
         backends:
