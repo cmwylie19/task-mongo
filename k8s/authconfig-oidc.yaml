@@ -9,7 +9,7 @@ spec:
       oidcAuthorizationCode:
         app_url: http://localhost:8080
         callback_path: /callback
-        client_id: 952883111352-3hmavis8d85vup5aipa164asqd4e2unf.apps.googleusercontent.com
+        client_id: 967359009029-ei2d6cq87lmbqsbve7oi8mt8s2ab0fpt.apps.googleusercontent.com
         client_secret_ref:
           name: google
           namespace: gloo-system
@@ -25,7 +25,7 @@ spec:
         session:
           cookieOptions:
             notSecure: true
-            maxAge: 3600
+            maxAge: 600
           failOnFetchFailure: true
           redis:
             cookieName: cookie
