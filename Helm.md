@@ -5,6 +5,11 @@
 helm upgrade --values gloo-values.yaml gloo glooe/gloo-ee -n gloo-system 
 ```
 
+## Upgrade Helm
+```
+helm upgrade --values gloo-values.yaml dev-portal dev-portal/dev-portal -n dev-portal
+```
+
 ## Remove Repo
 ```
 helm repo remove stable

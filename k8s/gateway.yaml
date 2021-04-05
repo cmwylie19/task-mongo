@@ -1,0 +1,22 @@
+apiVersion: gateway.solo.io/v1
+kind: Gateway
+metadata:
+  name: gateway-proxy
+  namespace: gloo-system
+spec:
+  bindAddress: '::'
+  bindPort: 8080
+  httpGateway: {}
+  options:
+    accessLoggingService:
+      accessLog:
+      - fileSink:
+          jsonFormat:
+            duration: '%DURATION%'
+            protocol: '%PROTOCOL%'
+            upstreamCluster: '%UPSTREAM_CLUSTER%'
+            upstreamHost: '%UPSTREAM_HOST%'
+          path: /dev/stdout
+  proxyNames:
+  - gateway-proxy
+  useProxyProto: false

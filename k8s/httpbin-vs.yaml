@@ -7,11 +7,11 @@ spec:
   virtualHost:
     domains:
     - '*'
-    options:
-      headerManipulation:
-        requestHeadersToRemove:
-        - "X-Envoy-Expected-Rq-Timeout-Ms"
-        - "X-Envoy-Internal"
+    # options:
+    #   headerManipulation:
+    #     requestHeadersToRemove:
+    #     - "X-Envoy-Expected-Rq-Timeout-Ms"
+    #     - "X-Envoy-Internal"
     routes:
     - matchers:
       - prefix: /
@@ -22,7 +22,15 @@ spec:
               name: httpbin
               namespace: default
             port: 8000
-
+      # - matchers:
+      #     - prefix: /
+      #   routeAction:
+      #     single:
+      #       kube:
+      #         ref:
+      #           name: admin-server
+      #           namespace: dev-portal
+      #         port: 8080
     # options:
     #   extauth:
     #     configRef:
